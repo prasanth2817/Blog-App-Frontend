@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "../Contexts/AuthContext";
 import Login from "../Pages/Login";
@@ -6,6 +6,7 @@ import SignUp from "../Pages/SignUp";
 import Home from "../Pages/Home";
 
 function AppRoutes() {
+    const Navigate = useNavigate();
   const { authUser } = useAuthContext();
   return (
     <>
