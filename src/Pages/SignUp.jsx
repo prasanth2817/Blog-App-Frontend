@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import AxiosService from "../Services/ApiServices";
 
 function SignUp() {
   const [name, setName] = useState("");
@@ -14,11 +13,7 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let payload = {
-      name,
-      email,
-      password,
-    };
+    let payload = { name, email, password };
 
     if (!payload.name || !payload.email || !payload.password) {
       toast.error("All fields are required");
@@ -27,15 +22,24 @@ function SignUp() {
 
     try {
       setLoading(true);
-      const res = await AxiosService.post("/auth/signup", payload);
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
       if (res.status === 201) {
-        toast.success(res.data.message);
+        toast.success(data.message);
         navigate("/login");
+      } else {
+        throw new Error(data.message || "Error signing up!");
       }
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Error occurred! Please try again later."
-      );
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }
@@ -44,12 +48,12 @@ function SignUp() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-gray-600">
       <div className="w-9/12 md:w-full max-w-sm p-6 rounded-lg shadow-slate-800 bg-gray-100 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-70">
-        <h2 className="text-3xl font-semibold text-center text-gray-300">
+        <h2 className="text-3xl font-semibold lg:font-bold text-center text-gray-300">
           Sign <span className="text-blue-500 font-extrabold text-4xl">Up</span>
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="text-base label-text">Name</label>
+            <label className="text-base font-mono label-text">Name</label>
             <input
               type="text"
               value={name}
@@ -60,7 +64,7 @@ function SignUp() {
             />
           </div>
           <div>
-            <label className="text-base label-text">Email address</label>
+            <label className="text-base font-mono label-text">Email address</label>
             <input
               type="email"
               value={email}
@@ -70,7 +74,7 @@ function SignUp() {
             />
           </div>
           <div>
-            <label className="text-base label-text">Password</label>
+            <label className="text-base font-mono label-text">Password</label>
             <input
               type="password"
               value={password}
@@ -84,7 +88,7 @@ function SignUp() {
             <button
               type="submit"
               disabled={loading}
-              className={`bg-slate-500 text-black text-sm font-mono btn-block rounded-lg btn-sm mt-2 p-1 ${
+              className={`bg-slate-500 text-black text-sm font-mono btn-block rounded-lg btn-sm mt-2 p-1.5 ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
@@ -110,4 +114,3 @@ function SignUp() {
 }
 
 export default SignUp;
-

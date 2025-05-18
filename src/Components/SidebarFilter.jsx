@@ -1,6 +1,13 @@
 import { useState } from "react";
 
-const categories = ["All", "Technology", "Health", "Travel", "Finance"];
+const categories = [
+  "All",
+  "Technology",
+  "Health",
+  "Travel",
+  "Finance",
+  "Others",
+];
 
 const FilterSidebar = ({ onApply }) => {
   const [author, setAuthor] = useState("");
@@ -20,12 +27,14 @@ const FilterSidebar = ({ onApply }) => {
   };
 
   return (
-    <div className="p-6 space-y-4 border-r h-full">
+    <div className="p-4 md:p-6 space-y-4 h-full">
       <h2 className="text-xl font-semibold text-gray-800">Filters</h2>
 
       {/* Author Filter */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">Author</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Author
+        </label>
         <input
           type="text"
           placeholder="Enter author name"
@@ -37,7 +46,9 @@ const FilterSidebar = ({ onApply }) => {
 
       {/* Category Filter */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">Category</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Category
+        </label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
