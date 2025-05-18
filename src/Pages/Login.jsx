@@ -84,7 +84,7 @@ const Login = () => {
       <div className="mt-10 text-gray-300 font-mono text-sm text-center">
         <h3 className="text-lg mb-1">Sample User Login</h3>
         <p>
-          <strong>Email:</strong> user1234@gmail.com
+          <strong>Email:</strong> arunkumar123@gmail.com
         </p>
         <p>
           <strong>Password:</strong> 12345678
